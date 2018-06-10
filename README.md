@@ -56,6 +56,7 @@ And the web client with:
 - Ocp PrettyTime (java.util.Date API helper library)
 
 
+## SAMPLE SCREENS
 ### Browse missing pet announcements
 ![Sample screen](https://github.com/Pio-Trek/Lost-My-Pet/blob/master/art/app01.jpg)
 
