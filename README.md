@@ -1,3 +1,6 @@
+# 🐶 LOST MY PET
+**_IMPORTANT!_ This is my own academic graduation project. The project is saved in the plagiarism academic database and no part of the documentation and/or code can be copied and used again.**
+
 ## DEMO
 Application demo has been deployed at the following link:
 http://sundaydevblog.com/lostmypet
