@@ -12,7 +12,6 @@ http://sundaydevblog.com/lostmypet
 ## ABOUT
 Lost My Pet is (yes, another pet application!) my graded unit project that allows a user to report missing or found pet in the area where they live, create accounts, sending notifications and messages to other members, register new account (email verification token sending), generate Excel/PDF reports and many more.<br />
 The project uses Java 8 with Spring Rest for the back-end and Spring Web (MVC), Security, Thymeleaf for front-end. During the analysis phase, I used OOA/OOD methodology and created full documentation of the web client and backend service.<br />
-**For the full documentation please check _DOCUMENTATION_ folder.**
 
 ## SDLC Documentation
 Partial documentation is available in the  **_DOCUMENTATION_** folder. You can find there:
