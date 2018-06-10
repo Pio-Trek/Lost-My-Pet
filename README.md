@@ -10,7 +10,7 @@ http://sundaydevblog.com/lostmypet
 **Example administrator accounts:** admin@email.com, admintom@gmail.com <br />
 **Password (all accounts):** 123qwe
 
-## SDLC Documentation
+## DEVELOPMENT DOCUMENTATION
 Partial documentation is available in the  **_DOCUMENTATION_** folder. You can find there:
 - Interview questions and response
 - Functional and non-functional requirements
