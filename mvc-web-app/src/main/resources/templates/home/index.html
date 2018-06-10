@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; City of Hillwood report missing or found pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto text-center">
+
+                    <div class="alert alert-default" role="alert" th:if="${!message.isEmpty()}">
+                        <div class="container">
+                            <div class="alert-icon">
+                                <i class="now-ui-icons ui-2_like"></i>
+                            </div>
+                            <strong>
+                                <th:block th:text="${message}"></th:block>
+                            </strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <h2 class="title">Who we are?</h2>
+                    <h5 class="description">My Pet is one of the largest lost and found pets database.
+                        Its reunification service is based in the City of Hillwood and available 24 hours a day 365 days a year, managed by the City of Hillwood Council. We hope these dedicated lost and found pages assist you in getting a lost pet back home.</h5>
+                </div>
+            </div>
+            <div class="separator separator-primary"></div>
+            <div class="section-story-overview">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="image-container image-left"
+                             style="background-image: url('../../img/about/bg-o-2.jpeg')">
+                            <!-- First image on the left side -->
+                            <p class="blockquote blockquote-primary">"Before you get a pet, you can't quite imagine what
+                                living with one might be like; afterward, you can't imagine living any other way."
+                                <br>
+                                <br>
+                                <small>-Caroline Knapp</small>
+                            </p>
+                        </div>
+                        <!-- Second image on the left side of the article -->
+                    </div>
+                    <div class="col-md-5">
+                        <!-- First image on the right side, above the article -->
+                        <div class="image-container image-right"
+                             style="background-image: url('../../img/about/bg-o-1.jpeg')"></div>
+                        <h3>It only takes a minute to create an account, so register now.</h3>
+                        <p>No matter what type of pet you have found or lost, we will do all we can to help you be re-united with your lost pet or help you find the rightful owner of a pet you have found.
+                        </p>
+                        <p>
+                            With such a large community at the Lost My Pet, you can be safe in the knowledge we will do our utmost to bring you and your missing pet together. We are not simply just a pet registration database, we provide you with your own members control panel to keep your pet information updated and current. You have 24hr access to your members area via your username and password we supply in your welcome registration email. Register today and help protect your Pet. Why not join us and also take a look at our UK Pet Business Directory.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+</html>

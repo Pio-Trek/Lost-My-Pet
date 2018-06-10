@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"/>
+
+<head>
+    <title>Missing Pets &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+    <div class="section">
+        <div class="container">
+
+            <div class="col-md-8 ml-auto mr-auto content-center">
+
+                <div class="alert alert-default text-center" role="alert" th:if="${!message.isEmpty()}">
+                    <div class="container">
+                        <div class="alert-icon">
+                            <i class="now-ui-icons ui-2_like"></i>
+                        </div>
+                        <strong>
+                            <th:block th:text="${message}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-end">
+
+                <form class="form-inline" th:action="@{/view/lost}" method="get">
+
+                    <div class="col-xs-4">
+                        <label class="col-form-label">Select...</label>
+                        <div class="form-inline">
+                            <div class="radio">
+                                <input type="radio" name="type" id="type-all" value="all"
+                                       th:checked="(${filterType != 'cats' and filterType != 'dogs'} ? 'checked')">
+                                <label for="type-all">
+                                    All
+                                </label>
+                            </div>
+
+                            <div class="radio">
+                                <input type="radio" name="type" id="type-cats" value="cats"
+                                       th:checked="(${#strings.equalsIgnoreCase(filterType, 'cats')} ? 'checked')">
+                                <label for="type-cats">
+                                    Cats
+                                </label>
+                            </div>
+
+                            <div class="radio">
+                                <input type="radio" name="type" id="type-dogs" value="dogs"
+                                       th:checked="(${#strings.equalsIgnoreCase(filterType, 'dogs')} ? 'checked')">
+                                <label for="type-dogs">
+                                    Dogs
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4" style="padding: 0 2em 0 2em;">
+                        <label class="col-form-label">Sort by Date...</label>
+                        <div class="form-inline">
+                            <div class="radio">
+                                <input type="radio" name="sortBy" id="sort-added" value="addedDate"
+                                       th:checked="${!#strings.equalsIgnoreCase(filterSortBy, 'lostDate')}">
+                                <label for="sort-added">
+                                    Added
+                                </label>
+                            </div>
+
+                            <div class="radio">
+                                <input type="radio" name="sortBy" id="sort-lost" value="lostDate"
+                                       th:checked="${#strings.equalsIgnoreCase(filterSortBy, 'lostDate')}">
+                                <label for="sort-lost">
+                                    Lost
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                        <div class="input-group-sm">
+                            <select class="form-control custom-select" name="location">
+                                <option th:value="all"
+                                        th:text="'All locations '"></option>
+                                <option th:each="location : ${locationList}"
+                                        th:value="${location.name}"
+                                        th:text="${location.name}"
+                                        th:selected="${#strings.equalsIgnoreCase(location.name, filterLocation)}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4" style="padding: 0 0.5em 0 1em;">
+                        <input type="submit"
+                               value="Filter"
+                               class="btn btn-primary btn-round btn-sm btn-block"/>
+                    </div>
+
+                    <div class="col-xs-4">
+                        <a th:href="@{/view/lost}"
+                           class="btn btn-default btn-round btn-sm btn-block"
+                           role="button">Reset</a>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="section-story-overview">
+
+                <th:block th:if="${#lists.size(lost) == 0}">
+                    <div class="col-md-8 ml-auto mr-auto content-center text-center">
+                        <h2 class="title empty-page">This page is empty, same as my bowl!</h2>
+                        <img class="img-fluid "
+                             th:src="@{/img/empty-info.jpg}"/>
+                    </div>
+                </th:block>
+
+                <div class="row">
+
+
+                    <!--/*@thymesVar id="lost" type="graded.unit.lostmypetwebapp.model.posts.Lost"*/-->
+                    <th:block th:each="lost : ${lost}">
+
+                        <!--Announcement Card START-->
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+                            <div class="thumbnail">
+                                <div class="caption">
+
+                                    <a th:href="@{/view/lost/{id}(id=${lost.id})}">
+
+                                        <div class="card border-light mb-3 list-group-item-action"
+                                             style="max-width: 20rem;">
+                                            <div class="card-header">
+
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h5 class="mb-1 text-primary"
+                                                        th:text="${lost.pet.name}">Pet Name</h5>
+                                                    <p class="text-muted"
+                                                       th:text="${#dates.format(lost.addedDate, 'dd/MM/yy')}">
+                                                        Added Date</p>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="card-body">
+
+                                            <span class="iwt">
+                                                <i class="now-ui-icons ui-1_calendar-60"></i>
+                                                <span th:text="${#dates.format(lost.lostDate, 'dd MMMM yyyy')}">Lost Date</span>
+                                            </span>
+
+                                                <span class="iwt">
+                                                <i class="now-ui-icons location_pin"></i>
+                                                <span th:text="${lost.location.name}">Location Name</span>
+                                            </span>
+
+                                                <span class="iwt">
+                                                <i class="now-ui-icons design_palette"></i>
+                                                <span th:text="${!lost.pet.colours.isEmpty() ? #strings.replace(lost.pet.colours, '[', '').replace(']', '') : 'Colour not specified'}">Pet Colour</span>
+                                            </span>
+                                            </div>
+
+                                            <img style="height: 200px; width: 100%; display: block; object-fit: cover;"
+                                                 class="img-fluid" th:if="*{lost.pet.image != null}"
+                                                 th:src="@{'data:image/image;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(lost.pet.image)}}"/>
+                                            <img style="height: 200px; width: 100%; display: block; object-fit: cover;"
+                                                 class="img-fluid" th:unless="*{lost.pet.image != null}"
+                                                 th:src="(${lost.pet instanceof T(graded.unit.lostmypetwebapp.model.pets.Dog)} ? @{/img/placeholder-dog.png} : @{/img/placeholder-cat.png})"/>
+
+                                        </div>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--Announcement Card END-->
+
+                    </th:block>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+</html>

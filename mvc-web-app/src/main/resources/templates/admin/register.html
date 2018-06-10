@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+
+            <div class="col-md-8 ml-auto mr-auto text-center">
+
+                <h2 class="title">Register new account</h2>
+
+                <!--Error alert section-->
+                <div class="alert alert-primary" role="alert" th:if="${!errorMessage.isEmpty()}">
+                    <div class="container">
+                        <strong>
+                            <th:block th:text="${errorMessage}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+                <!--Error alert section END-->
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4 ml-auto mr-auto text-center">
+                    <form class="form"
+                          th:action="@{/admin/register}"
+                          th:object="${admin}"
+                          th:method="POST"
+                          th:formenctype="utf8"
+                          autocomplete="off">
+
+                        <div class="content">
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </span>
+                                <input type="text"
+                                       th:field="*{firstName}"
+                                       class="form-control"
+                                       placeholder="First name..."
+                                       pattern="[A-Za-z]{3,20}"
+                                       oninvalid="this.setCustomValidity('First name should only contain letters from 3 to 30 characters.')"
+                                       oninput="this.setCustomValidity('')"
+                                       required>
+                            </div>
+
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </span>
+                                <input type="text"
+                                       th:field="*{lastName}"
+                                       class="form-control"
+                                       placeholder="Last name..."
+                                       pattern="[A-Za-z]{0,20}"
+                                       oninvalid="this.setCustomValidity('Last name should only contain letters up to 30 characters.')"
+                                       oninput="this.setCustomValidity('')">
+                            </div>
+
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons ui-1_email-85"></i>
+                                </span>
+                                <input type="email"
+                                       name="username"
+                                       th:field="*{email}"
+                                       class="form-control"
+                                       placeholder="Email..."
+                                       oninvalid="this.setCustomValidity('Enter a valid email address.')"
+                                       oninput="this.setCustomValidity('')"
+                                       required>
+                            </div>
+
+                            <label>Type Password</label>
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons objects_key-25"></i>
+                                </span>
+                                <input name="password"
+                                       type="password"
+                                       id="password"
+                                       class="form-control"
+                                       minlength="6"
+                                       th:maxlength="30"
+                                       placeholder="Password..." required>
+                            </div>
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons objects_key-25"></i>
+                                </span>
+                                <input type="password"
+                                       id="confirm_password"
+                                       class="form-control"
+                                       minlength="6"
+                                       th:maxlength="30"
+                                       placeholder="Confirm Password..." required/>
+                            </div>
+
+                            <div class="footer text-center">
+                                <input type="submit"
+                                       value="Submit"
+                                       class="btn btn-primary btn-round btn-lg btn-block"/>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+<script>
+
+    const password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value !== confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords don't match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+</script>
+</html>

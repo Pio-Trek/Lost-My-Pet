@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+            <div class="col-md-8 ml-auto mr-auto content-center">
+
+                <div class="alert alert-default text-center" role="alert" th:if="${!message.isEmpty()}">
+                    <div class="container">
+                        <div class="alert-icon">
+                            <i class="now-ui-icons ui-2_like"></i>
+                        </div>
+                        <strong>
+                            <th:block th:text="${message}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-12 text-center mb-4">
+                    <span class="title h2">Dashboard</span>
+                    <h5 class="description" sec:authentication="name"></h5>
+                </div>
+
+            </div>
+
+            <div class="row text-center">
+                <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
+                    <a th:href="@{/admin/register}">
+                        <div class="card list-group-item-action">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="now-ui-icons business_badge" style="font-size: 3em"></i>
+                                    </div>
+                                </div>
+                                <span class="h3">Register new Administrator</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+
+                    <th:block th:if="${countNewPosts} > 0">
+                        <a th:href="@{/admin/announcements(enabled=0)}">
+                            <div class="card list-group-item-action">
+                                <div class="card-body">
+                                    <span class="h4 font-weight-bold">Announcements for moderation:</span><br>
+                                    <span class="numberCircle text-primary font-weight-bold mt-2"
+                                          th:text="${countNewPosts}"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${countNewPosts} > 0">
+                        <div class="card list-group-item-action">
+                            <div class="card-body">
+                                <span class="h4 font-weight-bold">Announcements for moderation:</span><br>
+                                <span class="numberCircle font-weight-bold mt-2">0</span>
+                            </div>
+                        </div>
+                    </th:block>
+
+
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+
+                    <th:block th:if="${countReports > 0}">
+                        <a th:href="@{/admin/announcements/reported }">
+                            <div class="card list-group-item-action">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <i class="now-ui-icons ui-1_bell-53" style="font-size: 3em"></i>
+                                        </div>
+                                    </div>
+                                    <span class="h3">Reported posts:</span><br>
+                                    <span class="numberCircle text-primary font-weight-bold mt-2"
+                                          th:text="${countReports}"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </th:block>
+                    <th:block th:unless="${countReports > 0}">
+                        <div class="card list-group-item-action">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="now-ui-icons ui-1_bell-53" style="font-size: 3em"></i>
+                                    </div>
+                                </div>
+                                <span class="h3">Reported posts:</span><br>
+                                <span class="numberCircle font-weight-bold mt-2">0</span>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
+                    <a th:href="@{/admin/users}">
+                        <div class="card list-group-item-action">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="now-ui-icons users_single-02" style="font-size: 3em"></i>
+                                    </div>
+                                </div>
+                                <span class="h3">List of all Users</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <a th:href="@{/admin/announcements}">
+                        <div class="card list-group-item-action">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="now-ui-icons education_paper" style="font-size: 3em"></i>
+                                    </div>
+                                </div>
+                                <span class="h3">List of all Announcements</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <a th:href="@{/admin/report}">
+                        <div class="card list-group-item-action">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="now-ui-icons files_single-copy-04" style="font-size: 3em"></i>
+                                    </div>
+                                </div>
+                                <span class="h3">Generate Report</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+            <div class="col-md-8 ml-auto mr-auto content-center">
+
+                <div class="alert alert-default text-center" role="alert" th:if="${!message.isEmpty()}">
+                    <div class="container">
+                        <div class="alert-icon">
+                            <i class="now-ui-icons ui-2_like"></i>
+                        </div>
+                        <strong>
+                            <th:block th:text="${message}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <h2 class="title text-center">Lost Pets</h2>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 ml-auto mr-auto text-center">
+
+
+                    <th:block th:each="notification : ${notificationList}"
+                              th:with="announcement=${notification.getAnnouncement()}">
+
+                        <div class="card m-1" style="width: 18rem;">
+
+                            <img style="height: 180px; width: 100%; display: block; object-fit: cover;"
+                                 class="img-fluid card-img-top" th:if="*{announcement.pet.image != null}"
+                                 th:src="@{'data:image/image;base64,' + ${T(org.springframework.util.Base64Utils).encodeToString(announcement.pet.image)}}"/>
+                            <img style="height: 180px; width: 100%; display: block; object-fit: cover;"
+                                 class="img-fluid card-img-top" th:unless="*{announcement.pet.image != null}"
+                                 th:src="(${announcement.pet instanceof T(graded.unit.lostmypetwebapp.model.pets.Dog)} ? @{/img/placeholder-dog.png} : @{/img/placeholder-cat.png})"/>
+
+                            <div class="card-body">
+
+                                <div class="card-title h5">
+                                    <span th:text="(${announcement instanceof T(graded.unit.lostmypetwebapp.model.posts.Lost)} ? 'LOST ' : 'FOUND ') + (${announcement.pet instanceof T(graded.unit.lostmypetwebapp.model.pets.Dog)} ? 'DOG' : 'CAT')"></span>
+                                </div>
+
+                                <div class="text-left">
+
+                                    <strong>Added on: </strong><span
+                                        th:text="${#dates.format(announcement.addedDate, 'dd MMM yyyy')}"></span><br>
+                                    <strong>Breed: </strong><span th:text="${announcement.pet.breed}"></span><br>
+                                    <strong>Colours: </strong><span
+                                        th:text="${!announcement.pet.colours.isEmpty() ? #strings.replace(announcement.pet.colours, '[', '').replace(']', '').replace(',', ' &bull;') : 'Colour not specified'}"></span>
+
+                                </div>
+
+                                <a th:if="${announcement instanceof T(graded.unit.lostmypetwebapp.model.posts.Lost)}"
+                                   th:href="@{/view/lost/{id}(id=${announcement.id})}" class="btn btn-primary btn-sm">View</a>
+                                <a th:if="${announcement instanceof T(graded.unit.lostmypetwebapp.model.posts.Found)}"
+                                   th:href="@{/view/found/{id}(id=${announcement.id})}" class="btn btn-primary btn-sm">View</a>
+                                <a th:href="@{/account/notifications/delete(id=${notification.id})}"
+                                   class="btn btn-default btn-sm">Delete
+                                    Notification</a>
+                            </div>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+</html>

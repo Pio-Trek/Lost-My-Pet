@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+
+            <!--Error alert section-->
+            <div class="col-md-6 ml-auto mr-auto text-center">
+
+                <div class="alert alert-primary" role="alert" th:if="${!errorMessage.isEmpty()}">
+                    <div class="container">
+                        <strong>
+                            <th:block th:text="${errorMessage}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!--Error alert section END-->
+
+            <div class="row">
+                <div class="col-md-4 ml-auto mr-auto text-center">
+
+                    <h2 class="title">Your Details</h2>
+
+                    <!--/*@thymesVar id="user" type="graded.unit.lostmypetwebapp.model.users.User"*/-->
+                    <form class="form"
+                          th:action="@{/account/update}"
+                          th:object="${user}"
+                          th:method="POST"
+                          th:formenctype="utf8"
+                          autocomplete="off">
+
+                        <input type="hidden" th:value="*{id}" name="id"/>
+
+                        <div class="content">
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </span>
+                                <input type="text"
+                                       th:field="*{firstName}"
+                                       class="form-control"
+                                       placeholder="First name..."
+                                       pattern="[A-Za-z]{3,20}"
+                                       oninvalid="this.setCustomValidity('First name should only contain letters from 3 to 30 characters.')"
+                                       oninput="this.setCustomValidity('')"
+                                       required>
+                            </div>
+
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </span>
+                                <input type="text"
+                                       th:field="*{lastName}"
+                                       class="form-control"
+                                       placeholder="Last name..."
+                                       pattern="[A-Za-z]{0,20}"
+                                       oninvalid="this.setCustomValidity('Last name should only contain letters up to 30 characters.')"
+                                       oninput="this.setCustomValidity('')">
+                            </div>
+
+                            <div class="input-group input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons ui-1_email-85"></i>
+                                </span>
+                                <input type="email"
+                                       name="username"
+                                       th:field="*{email}"
+                                       class="form-control"
+                                       oninvalid="this.setCustomValidity('Enter a valid email address.')"
+                                       oninput="this.setCustomValidity('')"
+                                       placeholder="Email..." required>
+                            </div>
+
+                            <label>Location</label>
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                                    <i class="now-ui-icons location_pin"></i>
+                                </span>
+                                <select th:field="*{locationForm}"
+                                        class="form-control custom-select">
+                                    <option th:value="null"
+                                            th:text="' Choose one of the following... '"></option>
+                                    <option th:each="location : ${locationList}"
+                                            th:value="${location.name}"
+                                            th:text="${location.name}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="footer text-center">
+                                <input type="submit"
+                                       value="Save changes"
+                                       class="btn btn-primary btn-round btn-lg btn-block"/>
+                            </div>
+                            <div>
+                                <h6>
+                                    <a th:href="@{/account/password}" class="link">Change password</a>
+                                </h6>
+                            </div>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+</html>

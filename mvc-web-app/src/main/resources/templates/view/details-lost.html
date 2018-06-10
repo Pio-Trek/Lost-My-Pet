@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+    <div class="section">
+        <div class="container">
+            <div class="col-md-8 ml-auto mr-auto text-center">
+
+                <div class="alert alert-default text-center" role="alert" th:if="${!message.isEmpty()}">
+                    <div class="container">
+                        <div class="alert-icon">
+                            <i class="now-ui-icons ui-2_like"></i>
+                        </div>
+                        <strong>
+                            <th:block th:text="${message}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h5 class="title">Thank you for looking at this pet's details, please share them if you can.</h5>
+
+                <th:block th:if="${#authentication.name} == ${lost.member.email}">
+
+
+                    <a th:href="@{'/post/lost/update'(id=${lost.getId()})}" class="btn btn-primary btn-lg btn-round">
+                        <i class="now-ui-icons design-2_ruler-pencil"></i> EDIT
+                    </a>
+
+                    <a th:href="@{'/post/lost/delete'(id=${lost.getId()})}"
+                       th:onclick="'return confirm(\'Are you sure you want to delete this announcement?\');'"
+                       class="btn btn-default btn-lg btn-round">
+                        <i class="now-ui-icons ui-1_simple-remove"></i> DELETE
+                    </a>
+
+                </th:block>
+
+                <th:block th:if="${#authentication.name} != ${lost.member.email}">
+                    <button sec:authorize="isFullyAuthenticated()" class="btn btn-primary btn-lg btn-round"
+                            data-toggle="modal" data-target="#sendMessage">
+                        <i class="now-ui-icons ui-1_send"></i> Message the owner
+                    </button>
+
+                    <a th:href="@{/account/login}" sec:authorize="!isFullyAuthenticated()"
+                       class="btn btn-primary btn-lg btn-round" role="button" aria-pressed="true">
+                        <i class="now-ui-icons ui-1_send"></i> Login to message the owner
+                    </a>
+
+                    <div class="modal fade text-center" id="sendMessage" tabindex="-1" role="dialog"
+                         aria-labelledby="sendMessageLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="sendMessageLabel">Send message to the owner</h4>
+                                </div>
+                                <form autocomplete="off" action="#"
+                                      th:action="@{/view/message}"
+                                      method="post" class="m-t" role="form"
+                                      data-toggle="validator"
+                                      enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <input type="hidden" name="announcementType" value="lost">
+                                        <div class="form-group">
+                                            <label for="subject" class="col-form-label">Subject:</label>
+                                            <input minlength="5" maxlength="50" type="text" class="form-control"
+                                                   id="subject"
+                                                   name="subject"
+                                                   th:value="'Missing ' + (${lost.pet instanceof T(graded.unit.lostmypetwebapp.model.pets.Dog)} ? 'Dog ' : 'Cat ') + ${lost.pet.name} + ' (Announcement ID: ' + ${lost.id} + ')'"
+                                                   required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="body" class="col-form-label">Message:</label>
+                                            <textarea rows="8" minlength="5" maxlength="1000" class="form-control"
+                                                      id="body"
+                                                      name="body" required></textarea>
+                                            <div id="message_feedback" class="small"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <input type="submit" value="Send a message" class="btn btn-primary"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title=""
+                       data-original-title="Share on Twitter">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title=""
+                       data-original-title="Share on Facebook">
+                        <i class="fa fa-facebook-f"></i>
+                    </a>
+                </th:block>
+
+            </div>
+
+
+            <div class="section-story-overview">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="ml-auto mr-auto text-center">
+                            <!--/*@thymesVar id="lost" type="graded.unit.lostmypetwebapp.model.posts.Lost"*/-->
+                            <h5 th:text="'Announcement ID: ' + ${lost.id}"></h5>
+                            <h5 th:text="'Location: ' + ${lost.location.name}"></h5>
+                            <h5 th:text="'Missing on: ' + ${#dates.format(lost.lostDate, 'dd MMM yyyy')}"></h5>
+                            <div class="separator separator-primary"></div>
+                            <h3>
+                                <small th:text="${lost.pet.breed} + ' (' + ${lost.pet.gender} + ' Gender)'"></small>
+                                <br>
+
+                                <small>
+                                    <th:block th:if="${lost.pet.age} != null">
+                                        <th:block th:if="${lost.pet.age} >= 2 or ${lost.pet.age} == 0">
+                                            <span th:text="${lost.pet.age} + ' years old'"></span>
+                                        </th:block>
+                                        <th:block th:if="${lost.pet.age} == 1">
+                                            <span th:text="${lost.pet.age} + ' year old'"></span>
+                                        </th:block>
+                                        <br>
+                                    </th:block>
+                                </small>
+
+                                <small th:text="${!lost.pet.colours.isEmpty() ? #strings.replace(lost.pet.colours, '[', '').replace(']', '').replace(',', ' &bull;') : 'Colour not specified'}"></small>
+                                <br>
+
+                                <small>
+                                    <th:block th:if="${lost.pet.chipped} == false">
+                                        <span th:text="'No microchip'"></span>
+                                    </th:block>
+                                    <th:block th:if="${lost.pet.chipped} == true">
+                                        <span th:text="'Microchipped'"></span>
+                                    </th:block>
+                                    <span th:text="' &bull; '"></span>
+                                    <th:block th:if="${lost.pet.collar} == false">
+                                        <span th:text="'No collar'"></span>
+                                    </th:block>
+                                    <th:block th:if="${lost.pet.collar} == true">
+                                        <span th:text="'Collar'"></span>
+                                    </th:block>
+                                </small>
+                            </h3>
+                        </div>
+
+                        <p th:text="${lost.pet.description}"></p>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <img class="img-fluid rounded img-raised" th:if="*{lost.pet.image != null}"
+                             th:src="@{'data:image/image;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(lost.pet.image)}}"/>
+                        <img class="img-fluid rounded img-raised" th:unless="*{lost.pet.image != null}"
+                             th:src="(${lost.pet instanceof T(graded.unit.lostmypetwebapp.model.pets.Dog)} ? @{/img/placeholder-dog.png} : @{/img/placeholder-cat.png})"/>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-11 text-right">
+
+                <a th:href="@{'/view/lost/delete'(id=${lost.id})}"
+                   th:onclick="'return confirm(\'Are you sure you want to delete this announcement?\');'"
+                   sec:authorize="hasRole('ADMIN')"
+                   class="btn btn-primary btn-sm btn-round" role="button" aria-pressed="true">
+                    <i class="now-ui-icons ui-1_simple-remove"></i> DELETE
+                </a>
+
+                <th:block sec:authorize="hasRole('USER')" th:if="${#authentication.name } != ${lost.member.email}">
+
+                    <button type="button" class="btn btn-default btn-sm btn-round" data-toggle="modal"
+                            data-target="#reportModal">
+                        <i class="fa fa-exclamation-circle mr-sm-1"></i> REPORT
+                    </button>
+
+                    <div class="modal fade text-center" id="reportModal" tabindex="-1" role="dialog"
+                         aria-labelledby="reportModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="reportModalLabel">Please tell us what is wrong with this
+                                        announcement:</h4>
+                                </div>
+                                <form autocomplete="off" action="#"
+                                      th:action="@{/view/report(postType='lost')}"
+                                      th:object="${report}"
+                                      method="post" class="m-t" role="form"
+                                      data-toggle="validator"
+                                      enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="textarea" class="col-form-label">Message:</label>
+                                            <textarea class="form-control" id="textarea" maxlength="255"
+                                                      rows="5" th:field="*{message}" required></textarea>
+                                            <div id="textarea_feedback" class="small"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <input type="submit" value="Send a message" class="btn btn-primary"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </th:block>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+<script src="../../js/plugins/text-remaining.js" th:src="@{/js/plugins/text-remaining.js}"
+        type="text/javascript"></script>
+
+<script src="../../js/plugins/message-remaining.js" th:src="@{/js/plugins/message-remaining.js}"
+        type="text/javascript"></script>
+</html>

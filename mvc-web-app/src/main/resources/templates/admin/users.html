@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+            <div class="col-md-8 ml-auto mr-auto content-center">
+
+                <div class="alert alert-default text-center" role="alert" th:if="${!message.isEmpty()}">
+                    <div class="container">
+                        <div class="alert-icon">
+                            <i class="now-ui-icons ui-2_like"></i>
+                        </div>
+                        <strong>
+                            <th:block th:text="${message}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h2 class="title text-center">Users' list</h2>
+
+            </div>
+
+
+            <div class="row">
+
+                <th:block th:if="${#lists.size(adminsList) > 1}">
+
+                    <div class="card">
+                        <div class="card-body">
+                                <span class="iwt">
+                                    <i class="now-ui-icons ui-1_zoom-bold pr-3" style="font-size: 1.9em"></i>
+                                    <span class="h3">List Admins</span>
+                                </span>
+                            <p class="card-text pt-2">Click on update button to change your announcements details.</p>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-xl-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col" style="width: 190px">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr scope="row" th:each="admin : ${adminsList}">
+
+                                                <th:block th:if="${admin.getId() != currentAdminId}">
+
+                                                    <!--IF-->
+                                                    <th:block th:if="${#strings.isEmpty(admin.lastName)}">
+                                                        <td th:text="${admin.firstName}"></td>
+                                                    </th:block>
+                                                    <!--ELSE-->
+                                                    <th:block th:unless="${#strings.isEmpty(admin.lastName)}">
+                                                        <td th:text="${admin.firstName} + ' ' + ${admin.lastName}"></td>
+                                                    </th:block>
+
+                                                    <td th:text="${admin.email}"></td>
+                                                    <td>
+                                                        <a th:href="@{'/admin/users/delete'(id=${admin.getId()})}"
+                                                           th:onclick="'return confirm(\'Are you sure you want to delete this account?\');'"
+                                                           class="badge badge-primary"> Delete Account </a>
+                                                    </td>
+
+                                                </th:block>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </th:block>
+
+                <th:block th:if="${not #lists.isEmpty(membersList)}">
+
+                    <div class="card">
+                        <div class="card-body">
+                                <span class="iwt">
+                                    <i class="now-ui-icons users_single-02 pr-3" style="font-size: 1.9em"></i>
+                                    <span class="h3">List Members</span>
+                                </span>
+                            <p class="card-text pt-2">Click on update button to change your announcements details.</p>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-xl-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Enabled</th>
+                                                <th scope="col" style="width: 180px">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr scope="row" th:each="member : ${membersList}">
+                                                <td th:text="${member.firstName} + ' ' + ${member.lastName}"></td>
+                                                <td th:text="${member.email}"></td>
+                                                <td th:if="${member.location} != null"
+                                                    th:text="${member.location.name}"></td>
+                                                <td th:unless="${member.location} != null"
+                                                    th:text="'Not specified'"></td>
+                                                <td th:text="(${member.enabled} ? 'Yes' : 'No')"></td>
+                                                <td>
+                                                    <a th:href="@{'/admin/users/delete'(id=${member.getId()})}"
+                                                       th:onclick="'return confirm(\'Are you sure you want to delete this account?\');'"
+                                                       class="badge badge-primary"> Delete Account </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </th:block>
+            </div>
+        </div>
+
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+</html>

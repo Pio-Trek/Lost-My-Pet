@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Register New Account &#x1F415; Lost My Pet</title>
+</head>
+<body class="login-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="page-header" filter-color="orange">
+    <div class="page-header-image"
+         style="background-image:url('../../img/bg/bg-login.jpg')"></div>
+    <div class="container">
+        <div class="col-md-4 content-center">
+            <div class="card card-login card-plain">
+                <form class="form"
+                      th:action="@{/account/register}"
+                      th:object="${user}"
+                      th:method="POST"
+                      th:formenctype="utf8"
+                      autocomplete="off">
+
+                    <!--Error alert section-->
+                    <div class="alert alert-primary" role="alert" th:if="${errorMessage}">
+                        <div class="container">
+                            <th:block th:text="${errorMessage}">Error Message</th:block>
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+			<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-primary"
+                         role="alert"
+                         th:if="${#fields.hasErrors('firstName')}">
+
+                        <div class="container">
+                            <th:block th:errors="*{firstName}">First Name Error</th:block>
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert"
+                                    aria-label="Close">
+			<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--Error alert section END-->
+
+                    <div class="content">
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons users_circle-08"></i>
+                                </span>
+                            <input type="text"
+                                   th:field="*{firstName}"
+                                   pattern="[A-Za-z]{3,20}"
+                                   oninvalid="this.setCustomValidity('First name should only contain letters from 3 to 30 characters.')"
+                                   oninput="this.setCustomValidity('')"
+                                   class="form-control"
+                                   placeholder="First name..."
+                                   minlength="3"
+                                   th:maxlength="20" required>
+                        </div>
+
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons text_caps-small"></i>
+                                </span>
+                            <input type="text"
+                                   th:field="*{lastName}"
+                                   pattern="[A-Za-z]{0,20}"
+                                   oninvalid="this.setCustomValidity('Last name should only contain letters up to 30 characters.')"
+                                   oninput="this.setCustomValidity('')"
+                                   class="form-control"
+                                   placeholder="Last name..."
+                                   th:maxlength="20">
+                        </div>
+
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons ui-1_email-85"></i>
+                                </span>
+                            <input type="email"
+                                   name="username"
+                                   oninvalid="this.setCustomValidity('Enter a valid email address.')"
+                                   oninput="this.setCustomValidity('')"
+                                   th:field="*{email}"
+                                   class="form-control"
+                                   placeholder="Email..." required>
+                        </div>
+
+                        <label for="locationSelect">Location</label>
+                        <div class="input-group form-group-no-border">
+                            <span class="input-group-addon">
+                                    <i class="now-ui-icons location_pin"></i>
+                                </span>
+                            <select th:field="*{locationForm}"
+                                    id="locationSelect"
+                                    class="form-control custom-select">
+                                <option th:value="null"
+                                        th:text="' Choose one of the following... '"></option>
+                                <option th:each="location : ${locationList}"
+                                        th:value="${location.name}"
+                                        th:text="${location.name}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="footer text-center">
+                            <input type="submit"
+                                   value="Sign up"
+                                   class="btn btn-primary btn-round btn-lg btn-block"/>
+                        </div>
+                        <div class="pull-left">
+                            <h6>
+                                <a th:href="@{/account/login}" class="link">Login</a>
+                            </h6>
+                        </div>
+                        <div class="pull-right">
+                            <h6>
+                                <a th:href="@{/account/reset}" class="link">Reset password</a>
+                            </h6>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div>
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+</html>

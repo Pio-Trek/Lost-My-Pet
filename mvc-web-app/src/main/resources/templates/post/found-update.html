@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/header :: header"/>
+
+<head>
+    <title>Report a Missing Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+    <div class="section text-center">
+        <div class="container">
+
+            <form autocomplete="off" action="#"
+                  th:action="@{/post/found}"
+                  th:object="${announcement}"
+                  method="post" class="m-t" role="form"
+                  data-toggle="validator"
+                  enctype="multipart/form-data">
+
+                <input type="hidden" th:value="*{id}" name="id"/>
+                <input type="hidden" th:value="*{petId}" name="petId"/>
+                <input type="hidden" th:value="*{oldImage}" name="oldImage" id="oldImage"/>
+
+                <!--Pet type input-->
+                <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
+                    <label>Pet type</label>
+                    <div class="form-group">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="button-breed btn btn-lg" id="dog-type" disabled="disabeld"
+                                   th:classappend="*{petType == 'dog'} ? 'btn-primary' : 'btn-default'">
+                                <input type="radio"
+                                       th:field="*{petType}"
+                                       class="form-check-input"
+                                       th:value="dog"
+                                       th:text="'Dog'" required/>
+                            </label>
+                            <label class="button-breed btn btn-default btn-lg" id="cat-type" disabled="disabeld"
+                                   th:classappend="*{petType == 'cat'} ? 'btn-primary' : 'btn-default'">
+                                <input type="radio"
+                                       th:field="*{petType}"
+                                       class="form-check-input"
+                                       th:value="cat"
+                                       th:text="'Cat'" required/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!--Pet type input END-->
+
+
+                <!--Pet breed input-->
+                <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto">
+                    <div class="form-group">
+
+                        <div id="dog-breed" th:if="*{petType == 'dog'}">
+                            <label>Dog breed</label>
+                            <select id="select-dog" th:field="*{dogBreed}" class="form-control custom-select">
+                                <option th:value="null" th:text="' Please select if you know '"></option>
+                                <option th:each="dogBreed : ${dogBreeds}"
+                                        th:value="${dogBreed.name}"
+                                        th:text="${dogBreed.name}"></option>
+                            </select>
+                        </div>
+
+                        <div id="cat-breed" th:if="*{petType == 'cat'}">
+                            <label>Cat breed</label>
+                            <select id="select-cat" th:field="*{catBreed}" class="form-control custom-select">
+                                <option th:value="null" th:text="' Please select if you know '"></option>
+                                <option th:each="catBreed : ${catBreeds}"
+                                        th:value="${catBreed.name}"
+                                        th:text="${catBreed.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--Pet breed input END-->
+
+                <!--Pet gender input-->
+                <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
+                    <label>What sex is the pet?</label>
+                    <div class="form-group">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="button-gender btn btn-lg"
+                                   th:classappend="*{petGender == T(graded.unit.lostmypetwebapp.model.pets.PetGender).Male} ? 'btn-primary' : 'btn-default'"
+                                   id="male-gender">
+                                <input type="radio"
+                                       th:field="*{petGender}"
+                                       class="form-check-input"
+                                       th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetGender).Male}"
+                                       th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetGender).Male}"/>
+                            </label>
+                            <label class="button-gender btn btn-lg"
+                                   th:classappend="*{petGender == T(graded.unit.lostmypetwebapp.model.pets.PetGender).Female} ? 'btn-primary' : 'btn-default'"
+                                   id="female-gender">
+                                <input type="radio"
+                                       th:field="*{petGender}"
+                                       class="form-check-input"
+                                       th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetGender).Female}"
+                                       th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetGender).Female}"/>
+                            </label>
+                            <label class="button-gender btn btn-lg"
+                                   th:classappend="*{petGender == T(graded.unit.lostmypetwebapp.model.pets.PetGender).Unknown} ? 'btn-primary' : 'btn-default'"
+                                   id="unknown-gender">
+                                <input type="radio"
+                                       th:field="*{petGender}"
+                                       class="form-check-input"
+                                       th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetGender).Unknown}"
+                                       th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetGender).Unknown}"/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!--Pet gender input END-->
+
+
+                <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
+
+                    <!--Pet chipped input-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Is the pet chipped?</label>
+                            <div class="form-group"
+                                 data-toggle="tooltip" data-placement="top" title="Not sure select 'NO'">
+                                <input type="checkbox"
+                                       name="checkbox"
+                                       class="bootstrap-switch"
+                                       th:field="*{chipped}"
+                                       th:checked="*{chipped}"
+                                       data-on-label="YES"
+                                       data-off-label="NO"/>
+                            </div>
+                        </div>
+                        <!--Pet chipped input END-->
+
+                        <div class="col-md-6">
+                            <label>Does the pet have a collar?</label>
+                            <div class="form-group">
+                                <input type="checkbox"
+                                       name="checkbox"
+                                       class="bootstrap-switch"
+                                       th:field="*{collar}"
+                                       th:checked="*{collar}"
+                                       data-on-label="YES"
+                                       data-off-label="NO"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-5 text-center col-md-5 ml-auto mr-auto">
+                    <div class="row">
+
+                        <!--Pet lost location input-->
+                        <div class="col-md-6">
+                            <label>Where was the pet found?</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                            <span class="input-group-addon">
+                                    <i class="now-ui-icons location_pin"></i>
+                                </span>
+                                    <select th:field="*{location}" required
+                                            class="form-control custom-select">
+                                        <option th:value="null"
+                                                th:text="' Select one... '"></option>
+                                        <option th:each="location : ${locationList}"
+                                                th:value="${location.name}"
+                                                th:text="${location.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Pet lost location input END-->
+
+
+                        <!--Pet lost date input-->
+                        <div class="col-md-6">
+                            <label> What date? </label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                <span class="input-group-addon">
+                                <i class="now-ui-icons ui-1_calendar-60"></i>
+                            </span>
+                                    <input type="text" data-date="" th:field="*{eventDate}"
+                                           data-date-format="dd/mm/yyyy"
+                                           class="form-control date-picker input-lg"
+                                           data-datepicker-color="" required>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Pet lost date input END-->
+
+                    </div>
+                </div>
+
+
+                <!--Pet colours input-->
+                <div class="col-lg-6 text-center col-md-6 ml-auto mr-auto">
+                    <label>What colour(s) is the pet? (select max 4)</label>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select id="colours"
+                                    th:field="*{petColours}"
+                                    class="image show-html" data-limit="4"
+                                    multiple="multiple">
+                                <option data-img-src="/img/pet-colours/black.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Black}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Black}">Black
+                                </option>
+                                <option data-img-src="/img/pet-colours/brown.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Brown}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Brown}">Brown
+                                </option>
+                                <option data-img-src="/img/pet-colours/ginger.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Ginger}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Ginger}">Ginger
+                                </option>
+                                <option data-img-src="/img/pet-colours/golden.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Golden}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Golden}">Golden
+                                </option>
+                                <option data-img-src="/img/pet-colours/grey.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Grey}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Grey}">Grey
+                                </option>
+                                <option data-img-src="/img/pet-colours/lilac.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Lilac}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Lilac}">Grey
+                                </option>
+                                <option data-img-src="/img/pet-colours/liver.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Liver}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Liver}">Grey
+                                </option>
+                                <option data-img-src="/img/pet-colours/tan.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Tan}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).Tan}">Grey
+                                </option>
+                                <option data-img-src="/img/pet-colours/white.png"
+                                        th:value="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).White}"
+                                        th:text="${T(graded.unit.lostmypetwebapp.model.pets.PetColour).White}">Grey
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--Pet colours input END-->
+
+                <div class="col-lg-6 text-center col-md-6 ml-auto mr-auto mb-4">
+                    <div class="container-fade">
+                        <img class="img-fluid rounded img-raised image-fade" th:if="*{oldImage != null}"
+                             id="showOldImage"
+                             th:src="@{'data:image/image;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(oldImage)}}"/>
+                        <div class="fade-inner-content">
+
+                            <button type="button" class="btn btn-primary btn-round"
+                                    onclick="delete_oldImage();" id="buttonDeleteOldImage">
+                                <i class="fa fa-trash mr-sm-1"></i>DELETE
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Pet photo upload input-->
+                <div class="col-lg-8 text-center col-md-8 ml-auto mr-auto">
+                    <div class="form-group">
+                        <label class="btn btn-default btn-lg btn-round" for="image-file"
+                               data-toggle="tooltip" data-placement="top"
+                               title="5MB max file size">
+                            <i class="now-ui-icons media-1_camera-compact"></i>
+                            <input id="image-file"
+                                   type="file"
+                                   name="file"
+                                   style="display:none"
+                                   accept="image/*"
+                                   size="5MB">
+                            Upload Pet Photo
+                        </label>
+                        <span class='label label-info' id="upload-file-info"></span>
+                    </div>
+                </div>
+                <!--Pet photo upload input END-->
+
+
+                <!--Pet description input-->
+                <div class="col-lg-6 text-center col-md-6 ml-auto mr-auto">
+                    <label for="textarea">Details description</label>
+                    <div class="form-group">
+                        <textarea class="form-control" th:field="*{description}"
+                                  placeholder="Please give us much detail as possibble: E.g. distinguishing features, patterns, temperament, approximate size, weight or circumstances, etc..."
+                                  rows="5" maxlength="255" id="textarea"></textarea>
+                        <div id="textarea_feedback" class="small"></div>
+                    </div>
+                </div>
+                <!--Pet description input END-->
+
+
+                <div class="col-lg-3 text-center col-md-3 ml-auto mr-auto" style="margin-top: 2em">
+                    <input type="submit"
+                           value="Save changes"
+                           class="btn btn-primary btn-round btn-lg btn-block"/>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+
+<script src="../../js/plugins/image-delete-old.js" th:src="@{/js/plugins/image-delete-old.js}"
+        type="text/javascript"></script>
+
+<script src="../../js/plugins/gender-selector.js" th:src="@{/js/plugins/gender-selector.js}"
+        type="text/javascript"></script>
+
+<script src="../../js/plugins/file-size-checker.js" th:src="@{/js/plugins/file-size-checker.js}"
+        type="text/javascript"></script>
+
+<script src="../../js/plugins/image-picker.js" th:src="@{/js/plugins/image-picker.js}"
+        type="text/javascript"></script>
+
+<script src="../../js/plugins/description-text-remaining.js" th:src="@{/js/plugins/text-remaining.js}"
+        type="text/javascript"></script>
+
+<script src="../../js/plugins/datepicker-past.js" th:src="@{/js/plugins/datepicker-past.js}"
+        type="text/javascript"></script>
+
+</html>

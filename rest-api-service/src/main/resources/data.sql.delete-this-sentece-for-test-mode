@@ -1,0 +1,95 @@
+INSERT INTO `colours` VALUES
+  (1, 'Black'),
+  (2, 'Brown'),
+  (3, 'Ginger'),
+  (4, 'Grey'),
+  (5, 'White'),
+  (6, 'Lilac'),
+  (7, 'Golden'),
+  (8, 'Tan'),
+  (9, 'Liver');
+
+INSERT INTO `locations` VALUES
+  (1, 'West Vinewood'),
+  (2, 'Chamberlain Hills'),
+  (3, 'Burton'),
+  (4, 'Hawick'),
+  (5, 'Oreton'),
+  (6, 'Oxenfurt'),
+  (7, 'East Tenpenny');
+
+INSERT INTO `dog_breeds` VALUES
+  (1, 'Other'),
+  (2, 'Other - Mongrel / Crossbreed'),
+  (3, 'Beagle'),
+  (4, 'Bichon Frise'),
+  (5, 'Border Collie'),
+  (6, 'Border Terrier'),
+  (7, 'Boxer'),
+  (8, 'British Bulldog'),
+  (9, 'Cavalier King Charles Spaniel'),
+  (10, 'Chihuahua'),
+  (11, 'Cockapoo'),
+  (12, 'Cocker Spaniel'),
+  (13, 'Dachshund'),
+  (14, 'French Bulldog'),
+  (15, 'German Shepherd'),
+  (16, 'Golden Retriever'),
+  (17, 'Greyhound'),
+  (18, 'Jack Russell'),
+  (19, 'Labrador'),
+  (20, 'Lhasa Apso'),
+  (21, 'Lurcher'),
+  (22, 'Miniature Schnauzer'),
+  (23, 'Poodle'),
+  (24, 'Pug'),
+  (25, 'Rottweiler'),
+  (26, 'Shih-Tzu'),
+  (27, 'Siberian Husky'),
+  (28, 'Springer Spaniel'),
+  (29, 'Staffordshire Bull Terrier'),
+  (30, 'West Highland Terrier'),
+  (31, 'Yorkshire Terrier');
+
+INSERT INTO `cat_breeds` VALUES
+  (1, 'Other'),
+  (2, 'Other - Mongrel / Crossbreed'),
+  (3, 'Abyssinian'),
+  (4, 'Bengal'),
+  (5, 'Birman'),
+  (6, 'British Shorthair'),
+  (7, 'Burmese'),
+  (8, 'Devon Rex'),
+  (9, 'Maine Coon'),
+  (10, 'Norwegian Forest'),
+  (11, 'Oriental'),
+  (12, 'Persian'),
+  (13, 'Ragdoll'),
+  (14, 'Siamese'),
+  (15, 'Siberian'),
+  (16, 'Sphynx');
+
+  INSERT INTO `roles` VALUES
+  (1, 'ROLE_USER'),
+  (2, 'ROLE_ADMIN');
+
+INSERT INTO `users` VALUES
+  ('test-id-user1', null, 'user1@email.com', true,'Test1', 'User1', '$2a$04$JodczCrLPGYA1cCvtAWZoe47qhiBIMNjSexRFwCLevzRJQQSqZvaO', '1'),
+  ('test-id-user2', '0123token0123', 'user2@email.com', true,'Test2', 'User2', '$2a$04$JodczCrLPGYA1cCvtAWZoe47qhiBIMNjSexRFwCLevzRJQQSqZvaO', '1'),
+    ('test-id-user3', '', 'user3@email.com', true,'Test3', 'User3', '$2a$04$JodczCrLPGYA1cCvtAWZoe47qhiBIMNjSexRFwCLevzRJQQSqZvaO', '2'),
+  ('test-id-admin', null, 'admin@email.com', true,'AdminTest', null, '$2a$04$Ll0WUAuU1p.sjqH.g.f03eHcfS8ox1Pen9tYk8/JdWlgfBr71nNO.', null);
+
+
+INSERT INTO `user_role` VALUES
+  ('test-id-user1', 1),
+  ('test-id-user2', 1),
+  ('test-id-user3', 1),
+  ('test-id-admin', 2);
+
+INSERT INTO `messages` VALUES
+  ('test-message-1', '2018-05-20', 'First Message...', 'test-id-user1', 'test-id-user2'),
+  ('test-message-2', '2018-05-24' , 'Second Message...', 'test-id-user2', 'test-id-user1');
+
+INSERT INTO `CONVERSATIONS` VALUES
+  ('1', 'text text text text...', '2018-05-22', 'test-id-user2', 'test-message-1'),
+  ('2', 'bla bla bla bla bla...' , '2018-05-26', 'test-id-user1', 'test-message-2');

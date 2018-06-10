@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Lost My Pet &#x1F415; Lost My Pet</title>
+</head>
+<body class="landing-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="wrapper">
+    <div th:replace="fragments/header :: pageHeader"/>
+
+    <div class="section">
+        <div class="container">
+            <div class="col-md-8 ml-auto mr-auto content-center">
+
+                <div class="alert alert-default text-center" role="alert" th:if="${!message.isEmpty()}">
+                    <div class="container">
+                        <div class="alert-icon">
+                            <i class="now-ui-icons ui-2_like"></i>
+                        </div>
+                        <strong>
+                            <th:block th:text="${message}"></th:block>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+
+                <h2 class="title text-center">Messages</h2>
+
+            </div>
+
+
+            <div class="row">
+
+                <th:block th:if="${#lists.size(messagesAsSender) > 0}">
+
+                    <div class="card">
+                        <div class="card-body">
+                                <span class="iwt">
+                                    <i class="fa fa-arrow-circle-up pr-1" style="font-size: 2em"></i>
+                                    <span class="h3">Conversation that you started</span>
+                                </span>
+                            <p class="card-text pt-2">Click on view button to read whole conversation.</p>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-xl-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 220px">Date</th>
+                                                <th scope="col">Recipient</th>
+                                                <th scope="col">Subject</th>
+                                                <th scope="col" style="width: 190px">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr scope="row" th:each="messageAsSender : ${messagesAsSender}">
+                                                <td th:text="${#dates.format(messageAsSender.lastUpdate, 'dd MMMM yyyy (HH:mm)')}"></td>
+                                                <td th:text="${messageAsSender.recipient.firstName} + ' ' + ${messageAsSender.recipient.lastName} "></td>
+                                                <td th:text="${messageAsSender.subject}"></td>
+                                                <td>
+                                                    <a th:href="@{'/account/messages/view/{id}'(id=${messageAsSender.id})}"
+                                                       class="badge badge-primary"> View </a> |
+
+                                                    <a th:href="@{'/account/messages/delete'(id=${messageAsSender.id})}"
+                                                       th:onclick="'return confirm(\'Are you sure you want to delete this account?\');'"
+                                                       class="badge badge-default"> Delete </a>
+                                                </td>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </th:block>
+
+                <th:block th:if="${not #lists.isEmpty(messagesAsRecipient)}">
+
+                    <div class="card">
+                        <div class="card-body">
+                                <span class="iwt">
+                                    <i class="fa fa-arrow-circle-down pr-1" style="font-size: 2em"></i>
+                                    <span class="h3">Conversation that other started with you</span>
+                                </span>
+                            <p class="card-text pt-2">Click on view button to read whole conversation.</p>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-xl-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 220px">Date</th>
+                                                <th scope="col">Sender</th>
+                                                <th scope="col">Subject</th>
+                                                <th scope="col" style="width: 180px">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr scope="row" th:each="messageAsRecipient : ${messagesAsRecipient}">
+                                                <td th:text="${#dates.format(messageAsRecipient.lastUpdate, 'dd MMMM yyyy (HH:mm)')}"></td>
+
+                                                <td th:text="${messageAsRecipient.sender.firstName} + ' ' + ${messageAsRecipient.sender.lastName} "></td>
+                                                <td th:text="${messageAsRecipient.subject}"></td>
+                                                <td>
+                                                    <a th:href="@{'/account/messages/view/{id}'(id=${messageAsRecipient.id})}"
+                                                       class="badge badge-primary"> View </a> |
+
+                                                    <a th:href="@{'/account/messages/delete'(id=${messageAsRecipient.id})}"
+                                                       th:onclick="'return confirm(\'Are you sure you want to delete this account?\');'"
+                                                       class="badge badge-default"> Delete </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </th:block>
+            </div>
+        </div>
+
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+</html>

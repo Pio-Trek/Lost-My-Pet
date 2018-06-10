@@ -1,0 +1,141 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<!-- Header -->
+<div th:fragment="header">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <!-- Responsive -->
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+          name='viewport'/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="128x128" href="../../favicon.png" th:href="@{/favicon.png}">
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.ico" th:href="@{/favicon.ico}"/>
+
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+
+    <!-- CSS Files -->
+    <link href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../../css/image-picker.css" th:href="@{/css/image-picker.css}" rel="stylesheet"/>
+    <link href="../../css/now-ui-kit.css?v=1.1.0" th:href="@{/css/now-ui-kit.css?v=1.1.0}" rel="stylesheet"/>
+
+</div>
+
+<!-- Navigation -->
+<div th:fragment="navigation">
+
+    <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent" color-on-scroll="220">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" th:href="@{/}">
+                    &#x1F436; Lost My Pet
+                </a>
+                <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation"
+                 data-nav-image="../../img/bg/blurred-image-1.jpg">
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/contact}">Contact</a>
+                    </li>
+
+                    <li class="nav-item dropdown"
+                        th:classappend="${#httpServletRequest.requestURI.startsWith('/view/')}
+             ? 'active' : ''">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            View
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" th:href="@{/view/lost}">Missing Pets</a>
+                            <a class="dropdown-item" th:href="@{/view/found}">Found Pets</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_USER') or !isFullyAuthenticated()"
+                        th:classappend="${#httpServletRequest.requestURI.startsWith('/post/')}
+             ? 'active' : ''">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Post
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" th:href="@{/post/lost}">Missing Pet</a>
+                            <a class="dropdown-item" th:href="@{/post/found}">Found Pet</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="!isFullyAuthenticated()"
+                        th:classappend="${#httpServletRequest.requestURI ==  '/account/login'}
+             ? 'active' : ''">
+                        <a class="nav-link" th:href="@{/account/login}">
+                            <i class="now-ui-icons users_single-02"></i>
+                            <p>Login</p>
+                        </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="!isFullyAuthenticated()"
+                        th:classappend="${#httpServletRequest.requestURI ==  '/account/register'}
+             ? 'active' : ''">
+                        <a class="nav-link" th:href="@{/account/register}">
+                            <i class="now-ui-icons ui-1_lock-circle-open"></i>
+                            <p>Register</p>
+                        </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')"
+                        th:classappend="${#httpServletRequest.requestURI.startsWith('/account')}
+             ? 'active' : ''">
+                        <a class="nav-link" th:href="@{/account/dashboard}">
+                            <i class="now-ui-icons users_circle-08"></i>
+                            <p sec:authentication="name">Account</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:classappend="${#httpServletRequest.requestURI.startsWith('/admin')}
+             ? 'active' : ''">
+                        <a class="nav-link" th:href="@{/admin/dashboard}">
+                            <i class="now-ui-icons ui-1_settings-gear-63"></i>
+                            <p> Admin Panel </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="isFullyAuthenticated()">
+                        <a class="nav-link" th:href="@{/account/logout}">
+                            <i class="now-ui-icons arrows-1_share-66"></i>
+                            <p>Logout</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="pageHeader">
+    <div class="page-header page-header-small">
+        <div class="page-header-image" data-parallax="true"
+             th:style="'background-image:url(\'' + @{/img/bg/bg1.jpg} + '\');'">
+        </div>
+        <div class="container">
+            <div class="content-center">
+                <h1 class="title" th:text="${headerMessage}"></h1>
+                <h5 th:text="${headerEventDate}"></h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

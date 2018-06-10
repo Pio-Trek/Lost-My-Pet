@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="fragments/header :: header"/>
+<head>
+    <title>Change Password &#x1F415; Lost My Pet</title>
+</head>
+<body class="login-page sidebar-collapse">
+
+<div th:replace="fragments/header :: navigation"/>
+
+<div class="page-header" filter-color="orange">
+    <div class="page-header-image"
+         style="background-image:url('../../img/bg/bg-login.jpg')"></div>
+    <div class="container">
+        <div class="col-md-4 content-center">
+            <div class="card card-login card-plain">
+
+                <!--Error alert section-->
+                <div class="alert alert-primary" role="alert" th:if="${errorMessage}">
+                    <div class="container">
+                        <th:block th:text="${errorMessage}">Error message</th:block>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">
+				<i class="now-ui-icons ui-1_simple-remove"></i>
+			</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="alert alert-primary" role="alert" th:if="${invalidToken}">
+                    <div class="container">
+                        <th:block th:text="${invalidToken}">Invalid token</th:block>
+                        <button type="button" class="close" data-dismiss="alert">
+                        </button>
+                    </div>
+                </div>
+                <!--Error alert section END-->
+
+                <form th:if="!${invalidToken}" class="form" th:action="@{/account/confirm}"
+                      th:method="POST" th:formenctype="utf8" autocomplete="off">
+                    <div class="content">
+
+                        <input type="hidden" name="confirmationToken" th:value="${confirmationToken}">
+
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons objects_key-25"></i>
+                                </span>
+                            <input name="password"
+                                   type="password"
+                                   id="password"
+                                   class="form-control"
+                                   minlength="6"
+                                   th:maxlength="30"
+                                   placeholder="Password..." required>
+                        </div>
+                        <div class="input-group form-group-no-border input-lg">
+                                <span class="input-group-addon">
+                                    <i class="now-ui-icons objects_key-25"></i>
+                                </span>
+                            <input type="password"
+                                   id="confirm_password"
+                                   class="form-control"
+                                   minlength="6"
+                                   th:maxlength="30"
+                                   placeholder="Confirm Password..." required/>
+                        </div>
+
+                        <div class="footer text-center">
+                            <input type="submit" value="Change Password"
+                                   class="btn btn-primary btn-round btn-lg btn-block"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div>
+</body>
+
+<div th:replace="fragments/footer :: scripts"/>
+
+<script>
+
+    const password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword() {
+        if (password.value !== confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords don't match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+</script>
+
+</html>
