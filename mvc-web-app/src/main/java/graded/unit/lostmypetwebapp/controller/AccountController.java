@@ -420,7 +420,7 @@ public class AccountController {
 
             userService.saveOrUpdateMember(user);
 
-            redirectAttributes.addFlashAttribute("message", "Your account was successfully created. To activate it, please check your email.");
+            redirectAttributes.addFlashAttribute("message", "Your account was successfully created. To activate it, please check your email (probably in the SPAM folder).");
 
         }
 

@@ -132,7 +132,7 @@ public class UserController {
             userValidation.validateLocation(member).ifPresent(member::setLocation);
         }
 
-        String subject = "Registration Confirmation";
+        String subject = "LOST MY PET - Registration Confirmation";
         String message = "To confirm your e-mail address, please click the link below:\n";
         sendConfirmationEmail(member, request, subject, message);
         return userService.addMember(member);
@@ -215,7 +215,7 @@ public class UserController {
     @ApiMethod(description = "Set a new confirmation token for the user to reset the password.")
     public ResponseEntity<User> setMemberTokenToResetPassword(@ApiQueryParam(description = "The email address for password reset") @RequestParam(value = "reset", required = false) String email, HttpServletRequest request) throws CustomException {
         Optional<User> optUser = userValidation.validateByEmail(email);
-        String subject = "Password Reset Confirmation";
+        String subject = "LOST MY PET - Password Reset Confirmation";
         String message = "You recently requested a new password.\nPlease click the link below to complete your new password request:\n";
         optUser.ifPresent(user -> sendConfirmationEmail(user, request, subject, message));
         return userService.updateMember(optUser.orElse(null));
@@ -249,13 +249,14 @@ public class UserController {
         // Generate random UUID string token for confirmation link
         user.setConfirmationToken(UUID.randomUUID().toString().replace("-", ""));
 
-        String appUrl = request.getScheme() + "://" + request.getServerName();
+        //String appUrl = request.getScheme() + "://" + request.getServerName();
+        String appUrl = "http://159.65.24.18:8080";
 
         SimpleMailMessage registrationEmail = new SimpleMailMessage();
         registrationEmail.setTo(user.getEmail());
         registrationEmail.setSubject(subject);
         registrationEmail.setText(message + appUrl + "/account/confirm?token=" + user.getConfirmationToken());
-        registrationEmail.setFrom("728c72bb30-57d4a1@inbox.mailtrap.io");
+        registrationEmail.setFrom("hello@sundaydevblog.com");
 
         emailService.sendEmail(registrationEmail);
     }
