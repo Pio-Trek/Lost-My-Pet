@@ -1,5 +1,6 @@
 # 🐶 LOST MY PET
-**_IMPORTANT!_ This is my own academic graduation project. The project is saved in the international plagiarism academic database and no part of the documentation and/or code can be copied and used again.**
+Lost My Pet is (yes, another pet application!) my graded unit project that allows a user to report missing or found pet in the area where they live, create accounts, sending notifications and messages to other members, register new account (email verification token sending), generate Excel/PDF reports and many more.<br />
+The project uses Java 8 with Spring Rest for the back-end and Spring Web (MVC), Security, Thymeleaf for front-end. During the analysis phase, I used OOA/OOD methodology and created full documentation of the web client and backend service.<br />
 
 ## DEMO
 Application demo has been deployed at the following link:
@@ -9,11 +10,7 @@ http://sundaydevblog.com/lostmypet
 **Example administrator accounts:** admin@email.com, admintom@gmail.com <br />
 **Password (all accounts):** 123qwe
 
-## ABOUT
-Lost My Pet is (yes, another pet application!) my graded unit project that allows a user to report missing or found pet in the area where they live, create accounts, sending notifications and messages to other members, register new account (email verification token sending), generate Excel/PDF reports and many more.<br />
-The project uses Java 8 with Spring Rest for the back-end and Spring Web (MVC), Security, Thymeleaf for front-end. During the analysis phase, I used OOA/OOD methodology and created full documentation of the web client and backend service.<br />
-
-## SDLC Documentation
+## DEVELOPMENT DOCUMENTATION
 Partial documentation is available in the  **_DOCUMENTATION_** folder. You can find there:
 - Interview questions and response
 - Functional and non-functional requirements
@@ -59,6 +56,7 @@ And the web client with:
 - Ocp PrettyTime (java.util.Date API helper library)
 
 
+## SAMPLE SCREENS
 ### Browse missing pet announcements
 ![Sample screen](https://github.com/Pio-Trek/Lost-My-Pet/blob/master/art/app01.jpg)
 
