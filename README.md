@@ -23,8 +23,6 @@ Partial documentation is available in the  **_DOCUMENTATION_** folder. You can f
 - Validation Control Forms
 - My Kanban board
 - User Manual
-- Unit Test Coverage Results
-- Unit Test Details Result
 
 ## API DOCUMENTATION
 API documentation with playground is available at the following link:
