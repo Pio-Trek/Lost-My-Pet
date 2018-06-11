@@ -34,7 +34,7 @@ API documentation with playground is available at the following link:
 
 - Java SE Development Kit 8
 - Maven 3.0+
-- H2 In-Memory Database _(can work with any other relational database)_
+- H2 Database Engine _(can work with any other relational database)_
 - SMTP mail server for sending confirmation tokens (e.g [mailtrap](https://mailtrap.io))
 
 ## GETTING STARTED
