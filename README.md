@@ -30,6 +30,24 @@ Partial documentation is available in the  **_DOCUMENTATION_** folder. You can f
 API documentation with playground is available at the following link:
 [RESTful API Documentation](http://159.65.24.18:9000/jsondoc-ui.html?url=http://159.65.24.18:9000/jsondoc).
 
+## PRE-REQUISITES
+
+- Java SE Development Kit 8
+- Maven 3.0+
+- H2 In-Memory Database _(can work with any other relational database)_
+- SMTP mail server for sending confirmation tokens (e.g [mailtrap](https://mailtrap.io))
+
+## GETTING STARTED
+
+Import the Maven project straight to your Java IDE:
+- Intellij IDEA
+- Spring Tool Suite (STS)
+- Eclipse
+
+**Please provide your SMTP server details in the 'application.properties' file!**
+
+_(OPTIONAL) To work with other RDBMS you need to configure the project 'application.properties' file match to your database URL, username, password and add a required Maven dependency._
+
 ## TECHNOLOGY STACK
 The whole project was written using Java 1.8 and Spring Boot Framework 2.0.0 version.
 The backend (RESTful API) was created using:
