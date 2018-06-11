@@ -24,6 +24,8 @@ Partial documentation is available in the  **_DOCUMENTATION_** folder. You can f
 - My Kanban board
 - User Manual
 
+The documentation was created in accordance with the requirements of the [Scottish Qualifications Authority (SQA)](https://www.sqa.org.uk/files/hn/H48W35.pdf).
+
 ## API DOCUMENTATION
 API documentation with playground is available at the following link:
 [RESTful API Documentation](http://159.65.24.18:9000/jsondoc-ui.html?url=http://159.65.24.18:9000/jsondoc).
