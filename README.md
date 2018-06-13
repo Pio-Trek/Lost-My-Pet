@@ -3,7 +3,7 @@ Lost My Pet is (yes, another pet application!) my graded unit project that allow
 The project uses Java 8 with Spring Rest for the back-end and Spring Web (MVC), Security, Thymeleaf for front-end. During the analysis phase, I used OOA/OOD methodology and created full documentation of the web client and backend service.<br />
 
 ## DEMO
-Application demo has been deployed at the following link:
+Project demo is available at the following link:
 http://sundaydevblog.com/lostmypet
 
 **Example user accounts:** smccrow7@parallels.com, cmulvany4@answers.com, asiggers3@de.vu, aellyatt8@theguardian.com, lsullly5@tamu.edu <br />
