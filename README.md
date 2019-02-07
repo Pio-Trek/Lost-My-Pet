@@ -3,7 +3,7 @@ Lost My Pet is (yes, another pet application!) my graded unit project that allow
 The project uses Java 8 with Spring Rest for the back-end and Spring Web (MVC), Security, Thymeleaf for front-end. During the analysis phase, I used OOA/OOD methodology and created full documentation of the web client and backend service.<br />
 
 ## DEMO
-**[Project demo is available from here](http://159.65.24.18:8080/)**
+~~Project demo is available from here]~~ _(temporary not available)_
 
 **Example user accounts:** smccrow7@parallels.com, cmulvany4@answers.com, asiggers3@de.vu, aellyatt8@theguardian.com, lsullly5@tamu.edu <br />
 **Example administrator accounts:** admin@email.com, admintom@gmail.com <br />
@@ -27,7 +27,7 @@ The documentation was created in accordance with the requirements of the [Scotti
 
 ## API DOCUMENTATION
 API documentation with playground is available at the following link:
-[RESTful API Documentation](http://159.65.24.18:9000/jsondoc-ui.html?url=http://159.65.24.18:9000/jsondoc).
+~~RESTful API Documentation~~ _(temporary not available)_.
 
 ## PRE-REQUISITES
 
